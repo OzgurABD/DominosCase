@@ -1,0 +1,122 @@
+﻿@model IEnumerable<EcommerceServiceWebPage.Models.OrderProduct>
+
+@{
+    /**/
+
+    ViewBag.Title = "OrderPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Table</h2>
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Desc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr id="@item.ID" data-pname="@item.Name" data-pdesc="@item.Desc" data-pprc="@item.Price" data-pdprc="@item.DiscountPrice" data-ptype="@item.ProductTypeID">
+            <td>
+                @Html.ActionLink("Edit", null, null, null, new { @onclick = "P_Edit(" + item.ID + ")", @href = "#" })
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => item.Name, new { @id = "itemName" + item.ID })
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => item.Desc)
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => item.DiscountPrice)
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => item.ProductTypeID)
+            </td>
+            <td>
+                @*@Html.ActionLink("Add Cart", "Add_Cart", new { id = item.ID })*@
+                @Html.ActionLink("Add Cart", null, null, null, new { @onclick = "P_AddCart(" + item.ID + ")", @href = "#oCart" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+<h2>Order Table</h2>
+
+<button id="cob" class="btn btn-success" data-toggle="modal" data-target="#completeOrder">Complete Order</button>
+
+<table class="table" name="oCart" id="oCart">
+    <tr>
+        <th></th>
+        <th>
+            Name
+        </th>
+        <th>
+            Desc
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Quantity
+        </th>
+    </tr>
+</table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="completeOrder" tabindex="-1" role="dialog" aria-labelledby="coModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">We're waiting for order..</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Full Name</span>
+                    </div>
+                    <input type="text" class="form-control" id="fnameModal" name="fnameModal" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group col-sm-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Address</span>
+                    </div>
+                    <input type="text" class="form-control" id="addressModal" name="addressModal" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="completeModal" class="btn btn-primary">Bon appetit!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="~/Scripts/OrderPage.js"></script>
+    <script type="text/javascript">
+
+    </script>
+}
+
